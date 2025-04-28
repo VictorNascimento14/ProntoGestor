@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="https://thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <!-- Meta tags Obrigatórias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn {
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: none;
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+    </style>
+    
+    <title>ProntoGestor - Cadastro de Entrada</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-box-open me-2"></i>
+                ProntoGestor
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#conteudoNavbarSuportado">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(página atual)</span></a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Pesquisar">
+                    <button class="btn btn-outline-light" type="submit">Pesquisar</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Cadastro de Entrada</h2>
+                
+                <form th:action="@{/salvarEntrada}" th:object="${entrada}" method="POST">
+                    <div class="form-group">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="id">ID:</label>
+                                <input type="text" readonly="true" class="form-control" id="id" th:field="*{id}">
+                            </div>
+                            
+                            <div class="col-md-9">
+                                <label>Fornecedor:</label>
+                                <select th:field="*{fornecedor}" class="form-control" required>
+                                    <option value="">Selecione um fornecedor</option>
+                                    <option th:each="forn : ${listaFornecedores}" 
+                                            th:if="${forn != null}"
+                                            th:value="${forn.id}" 
+                                            th:text="${forn.nome}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label>Funcionário:</label>
+                                <select th:field="*{funcionario}" class="form-control" required>
+                                    <option value="">Selecione um funcionário</option>
+                                    <option th:each="func : ${listaFuncionarios}" 
+                                            th:if="${func != null}"
+                                            th:value="${func.id}" 
+                                            th:text="${func.nome}">
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label>Data:</label>
+                                <input type="date" required class="form-control" th:field="*{dataEntrada}">
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-12">
+                                <label>Observação:</label>
+                                <textarea class="form-control" th:field="*{obs}" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary" name="acao" value="salvar">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>Salvar
+                        </button>
+                        <a class="btn btn-danger ms-2" th:href="@{/administrativo}">
+                            <i class="fa-solid fa-share me-2"></i>Voltar
+                        </a>
+                        <a class="btn btn-success ms-2" th:href="@{/listarEntrada}">
+                            <i class="fa-solid fa-list me-2"></i>Listar
+                        </a>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <h3 class="mb-3">Itens da Entrada</h3>
+                
+                <form th:action="@{/salvarEntrada}" th:object="${itemEntrada}" method="POST">
+                    <input type="hidden" th:field="*{entrada}" th:value="${entrada.id}">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label>Produto:</label>
+                            <select th:field="*{produto}" class="form-control" required>
+                                <option value="">Selecione um produto</option>
+                                <option th:each="prod : ${listaProdutos}" 
+                                        th:if="${prod != null}"
+                                        th:value="${prod.id}" 
+                                        th:text="${prod.nome}">
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label>Quantidade:</label>
+                            <input type="number" required class="form-control" th:field="*{quantidade}" min="1">
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label>Valor Unitário:</label>
+                            <input type="number" step="0.01" required class="form-control" th:field="*{valor}" min="0.01">
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label>Valor Custo:</label>
+                            <input type="number" step="0.01" required class="form-control" th:field="*{valorCusto}" min="0.01">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary" name="acao" value="itens">
+                            <i class="fa-solid fa-plus me-2"></i>Adicionar Item
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Valor Unitário</th>
+                                <th>Valor Custo</th>
+                                <th>Subtotal</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${listaItemEntrada}">
+                                <td th:text="${item != null && item.produto != null ? item.produto.nome : ''}"></td>
+                                <td th:text="${item != null ? item.quantidade : ''}"></td>
+                                <td th:text="${item != null ? item.valor : ''}"></td>
+                                <td th:text="${item != null ? item.valorCusto : ''}"></td>
+                                <td th:text="${item != null ? (item.quantidade * item.valor) : ''}"></td>
+                                <td>
+                                    <a th:if="${item != null && item.id != null}" th:href="@{/removerItemEntrada/{id}(id=${item.id})}" class="text-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>
