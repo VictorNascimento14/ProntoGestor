@@ -105,7 +105,7 @@ sistema protótipo/
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/seu-usuario/prontogestor.git
+   git clone https://github.com/VictorNascimento14/ProntoGestor
    cd prontogestor
    ```
 
@@ -177,7 +177,7 @@ Para alterar essas configurações, edite o arquivo `configuracaoBancoDeDados.ja
 
 ## 📸 Screenshots
 
-*[Adicione screenshots do sistema aqui]*
+*![img.png](img.png)[Adicione screenshots do sistema aqui]*
 
 ## 🤝 Contribuição
 
@@ -196,7 +196,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ---
 
 <div align="center">
-  <p>Desenvolvido com ❤️ por [Seu Nome]</p>
+  <p>Desenvolvido com ❤️ por Victor Nascimento</p>
   <p>
     <a href="https://github.com/seu-usuario">GitHub</a> •
     <a href="https://linkedin.com/in/seu-usuario">LinkedIn</a>
